@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SEOYEON SPACE LOG</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+
+      --bg1:#060816;
+
+      --bg2:#0d1230;
+
+      --panel:#121834cc;
+
+      --panel2:#1a2145d8;
+
+      --line:#5d79ff;
+
+      --cyan:#7cecff;
+
+      --pink:#ff89cf;
+
+      --yellow:#ffe98b;
+
+      --purple:#a995ff;
+
+      --text:#eef3ff;
+
+      --sub:#b8c3ff;
+
+      --mint:#8dffd8;
+
+      --danger:#ff7272;
+
+      --shadow:0 0 18px rgba(124,236,255,.18), 0 0 40px rgba(169,149,255,.12);
+
+    }
+
+    *{
+
+      box-sizing:border-box;
+
+    }
+
+    html{
+
+      scroll-behavior:smooth;
+
+    }
+
+    body{
+
+      margin:0;
+
+      font-family:'Noto Sans KR', sans-serif;
+
+      color:var(--text);
+
+      background:
+
+        radial-gradient(circle at 20% 20%, rgba(110,86,255,.18), transparent 22%),
+
+        radial-gradient(circle at 80% 10%, rgba(255,137,207,.13), transparent 18%),
+
+        radial-gradient(circle at 85% 75%, rgba(124,236,255,.12), transparent 20%),
+
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+
+      min-height:100vh;
+
+      overflow-x:hidden;
+
+      position:relative;
+
+    }
+
+    body::before,
+
+    body::after{
+
+      content:"";
+
+      position:fixed;
+
+      inset:0;
+
+      pointer-events:none;
+
+      z-index:0;
+
+    }
+
+    body::before{
+
+      background-image:
+
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.8), transparent 60%),
+
+        radial-gradient(1.5px 1.5px at 20% 70%, rgba(124,236,255,.9), transparent 60%),
+
+        radial-gradient(2px 2px at 35% 40%, rgba(255,255,255,.7), transparent 60%),
+
+        radial-gradient(1.5px 1.5px at 60% 25%, rgba(255,255,255,.8), transparent 60%),
+
+        radial-gradient(2px 2px at 75% 60%, rgba(255,137,207,.8), transparent 60%),
+
+        radial-gradient(1.5px 1.5px at 85% 30%, rgba(255,255,255,.8), transparent 60%),
+
+        radial-gradient(2px 2px at 92% 80%, rgba(255,255,255,.8), transparent 60%),
+
+        radial-gradient(1px 1px at 50% 50%, rgba(124,236,255,.8), transparent 60%);
+
+      animation: twinkle 5s linear infinite;
+
+      opacity:.9;
+
+    }
+
+    body::after{
+
+      background:
+
+        radial-gradient(circle at 12% 86%, rgba(255,233,139,.15), transparent 11%),
+
+        radial-gradient(circle at 90% 13%, rgba(169,149,255,.16), transparent 12%);
+
+      filter: blur(10px);
+
+    }
+
+    @keyframes twinkle{
+
+      0%,100%{opacity:.85;}
+
+      50%{opacity:1;}
+
+    }
+
+    .planet{
+
+      position:fixed;
+
+      border-radius:50%;
+
+      z-index:0;
+
+      pointer-events:none;
+
+      opacity:.8;
+
+      filter:blur(.2px);
+
+    }
+
+    .planet.one{
+
+      width:130px;
+
+      height:130px;
+
+      top:90px;
+
+      right:70px;
+
+      background:
+
+        radial-gradient(circle at 35% 30%, #ffeaa7, #ff89cf 45%, #6e56ff 78%, #2a2f74 100%);
+
+      box-shadow:0 0 35px rgba(255,137,207,.25);
+
+    }
+
+    .planet.two{
+
+      width:85px;
+
+      height:85px;
+
+      left:40px;
+
+      bottom:110px;
+
+      background:
+
+        radial-gradient(circle at 30% 35%, #7cecff, #7a8bff 55%, #1e275f 100%);
+
+      box-shadow:0 0 30px rgba(124,236,255,.22);
+
+    }
+
+    .ring{
+
+      position:absolute;
+
+      inset:-12px;
+
+      border:2px solid rgba(255,255,255,.24);
+
+      border-radius:50%;
+
+      transform:rotate(-18deg) scale(1.25,.55);
+
+    }
+
+    #startScreen{
+
+      position:fixed;
+
+      inset:0;
+
+      z-index:100;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      flex-direction:column;
+
+      text-align:center;
+
+      padding:24px;
+
+      background:
+
+        radial-gradient(circle at center, rgba(28,35,78,.9), rgba(6,8,22,.97));
+
+      backdrop-filter:blur(10px);
+
+    }
+
+    .start-badge{
+
+      font-family:'Orbitron', sans-serif;
+
+      letter-spacing:3px;
+
+      font-size:12px;
+
+      color:var(--cyan);
+
+      margin-bottom:18px;
+
+      text-shadow:0 0 12px rgba(124,236,255,.35);
+
+    }
+
+    #startScreen h1{
+
+      font-family:'Orbitron', sans-serif;
+
+      font-size:clamp(32px, 6vw, 72px);
+
+      line-height:1.25;
+
+      margin:0;
+
+      color:#fff;
+
+      text-shadow:
+
+        0 0 10px rgba(124,236,255,.35),
+
+        0 0 28px rgba(169,149,255,.22);
+
+    }
+
+    .subtitle{
+
+      margin-top:18px;
+
+      font-size:18px;
+
+      color:var(--sub);
+
+    }
+
+    .spaceship{
+
+      font-size:92px;
+
+      margin:20px 0 10px;
+
+      animation: floatShip 2.6s ease-in-out infinite;
+
+      filter:drop-shadow(0 0 20px rgba(124,236,255,.3));
+
+    }
+
+    @keyframes floatShip{
+
+      0%,100%{transform:translateY(0);}
+
+      50%{transform:translateY(-12px);}
+
+    }
+
+    .start-btn{
+
+      margin-top:26px;
+
+      border:none;
+
+      background:linear-gradient(135deg, var(--cyan), var(--purple));
+
+      color:#05101f;
+
+      font-family:'Orbitron', sans-serif;
+
+      font-weight:800;
+
+      letter-spacing:1px;
+
+      padding:16px 28px;
+
+      border-radius:999px;
+
+      cursor:pointer;
+
+      box-shadow:var(--shadow);
+
+      transition:.25s;
+
+    }
+
+    .start-btn:hover{
+
+      transform:translateY(-4px) scale(1.02);
+
+    }
+
+    .blink{
+
+      margin-top:18px;
+
+      font-size:12px;
+
+      letter-spacing:2px;
+
+      color:var(--sub);
+
+      animation:blink 1.2s infinite;
+
+    }
+
+    @keyframes blink{
+
+      0%,100%{opacity:1;}
+
+      50%{opacity:.3;}
+
+    }
+
+    .app{
+
+      position:relative;
+
+      z-index:2;
+
+      max-width:1200px;
+
+      margin:34px auto;
+
+      padding:18px;
+
+    }
+
+    .window{
+
+      background:linear-gradient(180deg, rgba(18,24,52,.88), rgba(10,14,34,.9));
+
+      border:1px solid rgba(124,236,255,.18);
+
+      border-radius:24px;
+
+      box-shadow:var(--shadow);
+
+      overflow:hidden;
+
+      backdrop-filter:blur(10px);
+
+    }
+
+    .topbar{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      gap:14px;
+
+      padding:16px 20px;
+
+      border-bottom:1px solid rgba(124,236,255,.12);
+
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+
+    }
+
+    .top-left{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:12px;
+
+      flex-wrap:wrap;
+
+    }
+
+    .top-title{
+
+      font-family:'Orbitron', sans-serif;
+
+      font-size:14px;
+
+      letter-spacing:2px;
+
+      color:var(--cyan);
+
+    }
+
+    .signal{
+
+      display:flex;
+
+      gap:7px;
+
+    }
+
+    .signal span{
+
+      width:11px;
+
+      height:11px;
+
+      border-radius:50%;
+
+      background:var(--pink);
+
+      box-shadow:0 0 10px rgba(255,137,207,.45);
+
+    }
+
+    .hud-status{
+
+      font-size:12px;
+
+      color:var(--sub);
+
+    }
+
+    .layout{
+
+      display:grid;
+
+      grid-template-columns:320px 1fr;
+
+      min-height:700px;
+
+    }
+
+    .sidebar{
+
+      padding:24px;
+
+      border-right:1px solid rgba(124,236,255,.12);
+
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+
+    }
+
+    .panel-label{
+
+      font-family:'Orbitron', sans-serif;
+
+      font-size:11px;
+
+      color:var(--cyan);
+
+      letter-spacing:2px;
+
+      margin-bottom:14px;
+
+    }
+
+    .avatar-box{
+
+      position:relative;
+
+      background:
+
+        linear-gradient(180deg, rgba(124,236,255,.08), rgba(169,149,255,.08)),
+
+        rgba(255,255,255,.02);
+
+      border:1px solid rgba(124,236,255,.18);
+
+      border-radius:20px;
+
+      padding:24px 18px;
+
+      text-align:center;
+
+      box-shadow:inset 0 0 30px rgba(124,236,255,.04);
+
+      overflow:hidden;
+
+    }
+
+    .avatar-box::before{
+
+      content:"";
+
+      position:absolute;
+
+      inset:0;
+
+      background:
+
+        linear-gradient(transparent 96%, rgba(124,236,255,.08) 96%),
+
+        linear-gradient(90deg, transparent 96%, rgba(124,236,255,.08) 96%);
+
+      background-size:24px 24px;
+
+      pointer-events:none;
+
+    }
+
+    .orbit{
+
+      width:150px;
+
+      height:150px;
+
+      border:1px dashed rgba(124,236,255,.23);
+
+      border-radius:50%;
+
+      margin:0 auto 10px;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      animation: spinSlow 12s linear infinite;
+
+    }
+
+    @keyframes spinSlow{
+
+      to{transform:rotate(360deg);}
+
+    }
+
+    .avatar{
+
+      width:110px;
+
+      height:110px;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      border-radius:50%;
+
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.24), rgba(124,236,255,.1));
+
+      border:1px solid rgba(124,236,255,.25);
+
+      font-size:62px;
+
+      box-shadow:0 0 22px rgba(124,236,255,.12);
+
+      animation: antiSpin 12s linear infinite;
+
+    }
+
+    @keyframes antiSpin{
+
+      to{transform:rotate(-360deg);}
+
+    }
+
+    .online{
+
+      display:inline-block;
+
+      margin-top:6px;
+
+      padding:7px 12px;
+
+      border-radius:999px;
+
+      font-size:11px;
+
+      color:#04111f;
+
+      background:linear-gradient(135deg, var(--mint), var(--cyan));
+
+      font-weight:700;
+
+    }
+
+    .name{
+
+      margin:16px 0 4px;
+
+      font-size:28px;
+
+      font-weight:700;
+
+    }
+
+    .role{
+
+      color:var(--sub);
+
+      font-size:14px;
+
+      line-height:1.7;
+
+    }
+
+    .status-card{
+
+      margin-top:18px;
+
+      padding:18px;
+
+      border-radius:18px;
+
+      background:rgba(255,255,255,.03);
+
+      border:1px solid rgba(124,236,255,.12);
+
+    }
+
+    .status-row{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      margin:10px 0 7px;
+
+      font-size:13px;
+
+      color:var(--text);
+
+    }
+
+    .bar{
+
+      width:100%;
+
+      height:14px;
+
+      border-radius:999px;
+
+      background:rgba(255,255,255,.08);
+
+      overflow:hidden;
+
+      border:1px solid rgba(255,255,255,.06);
+
+    }
+
+    .fill{
+
+      height:100%;
+
+      border-radius:999px;
+
+      transition:.45s;
+
+    }
+
+    .hp{background:linear-gradient(90deg, var(--pink), #ffb3e2);}
+
+    .mp{background:linear-gradient(90deg, var(--cyan), #bff7ff);}
+
+    .exp{background:linear-gradient(90deg, var(--purple), #c8b8ff); width:0%;}
+
+    .mini-info{
+
+      margin-top:18px;
+
+      padding:16px;
+
+      border-radius:18px;
+
+      border:1px solid rgba(124,236,255,.12);
+
+      background:rgba(255,255,255,.03);
+
+      font-size:13px;
+
+      line-height:2;
+
+      color:var(--sub);
+
+    }
+
+    .main{
+
+      padding:24px;
+
+      min-width:0;
+
+    }
+
+    .menu-grid{
+
+      display:grid;
+
+      grid-template-columns:repeat(3, 1fr);
+
+      gap:12px;
+
+    }
+
+    .menu-btn{
+
+      border:1px solid rgba(124,236,255,.18);
+
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+
+      color:var(--text);
+
+      border-radius:16px;
+
+      padding:16px 14px;
+
+      font-weight:700;
+
+      font-size:14px;
+
+      cursor:pointer;
+
+      transition:.22s;
+
+      box-shadow:0 0 0 rgba(0,0,0,0);
+
+    }
+
+    .menu-btn:hover{
+
+      transform:translateY(-3px);
+
+      border-color:rgba(124,236,255,.35);
+
+      box-shadow:0 0 18px rgba(124,236,255,.08);
+
+    }
+
+    .menu-btn.active{
+
+      background:linear-gradient(135deg, rgba(124,236,255,.18), rgba(169,149,255,.18));
+
+      border-color:rgba(124,236,255,.42);
+
+      color:#fff;
+
+      box-shadow:0 0 20px rgba(124,236,255,.12);
+
+    }
+
+    .content{
+
+      margin-top:20px;
+
+      border-radius:22px;
+
+      padding:24px;
+
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+
+      border:1px solid rgba(124,236,255,.14);
+
+      min-height:430px;
+
+      box-shadow:inset 0 0 30px rgba(124,236,255,.03);
+
+      animation:fadeIn .25s ease;
+
+    }
+
+    @keyframes fadeIn{
+
+      from{opacity:0; transform:translateY(8px);}
+
+      to{opacity:1; transform:translateY(0);}
+
+    }
+
+    .section-tag{
+
+      display:inline-block;
+
+      padding:8px 12px;
+
+      border-radius:999px;
+
+      font-family:'Orbitron', sans-serif;
+
+      font-size:11px;
+
+      letter-spacing:1.5px;
+
+      color:var(--cyan);
+
+      background:rgba(124,236,255,.08);
+
+      border:1px solid rgba(124,236,255,.14);
+
+      margin-bottom:14px;
+
+    }
+
+    .content h2{
+
+      margin:0 0 18px;
+
+      font-size:32px;
+
+      line-height:1.3;
+
+    }
+
+    .dialogue{
+
+      padding:18px;
+
+      border-radius:18px;
+
+      background:rgba(8,13,32,.55);
+
+      border:1px solid rgba(124,236,255,.12);
+
+      line-height:2;
+
+      color:#f4f7ff;
+
+      box-shadow:inset 0 0 18px rgba(124,236,255,.04);
+
+    }
+
+    .chips{
+
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:10px;
+
+      margin:18px 0;
+
+    }
+
+    .chip{
+
+      padding:9px 14px;
+
+      border-radius:999px;
+
+      background:rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:var(--sub);
+
+      font-size:13px;
+
+    }
+
+    .inventory{
+
+      display:grid;
+
+      grid-template-columns:repeat(3, 1fr);
+
+      gap:14px;
+
+      margin-top:10px;
+
+    }
+
+    .item{
+
+      border:none;
+
+      text-align:center;
+
+      border-radius:18px;
+
+      padding:20px 12px;
+
+      color:var(--text);
+
+      background:linear-gradient(180deg, rgba(124,236,255,.09), rgba(169,149,255,.08));
+
+      border:1px solid rgba(124,236,255,.14);
+
+      cursor:pointer;
+
+      transition:.2s;
+
+    }
+
+    .item:hover{
+
+      transform:translateY(-5px) scale(1.02);
+
+      box-shadow:0 0 22px rgba(124,236,255,.11);
+
+    }
+
+    .item-icon{
+
+      font-size:38px;
+
+      display:block;
+
+      margin-bottom:12px;
+
+    }
+
+    .item-name{
+
+      font-weight:700;
+
+      font-size:14px;
+
+    }
+
+    .desc-box{
+
+      margin-top:18px;
+
+      padding:16px;
+
+      border-radius:16px;
+
+      color:var(--sub);
+
+      background:rgba(255,255,255,.03);
+
+      border:1px dashed rgba(255,255,255,.18);
+
+      min-height:74px;
+
+      line-height:1.9;
+
+    }
+
+    .skill{
+
+      margin-bottom:22px;
+
+    }
+
+    .quest{
+
+      border-radius:20px;
+
+      padding:20px;
+
+      background:linear-gradient(180deg, rgba(255,233,139,.08), rgba(255,137,207,.07));
+
+      border:1px solid rgba(255,233,139,.18);
+
+    }
+
+    .quest-badge{
+
+      display:inline-block;
+
+      padding:8px 12px;
+
+      border-radius:999px;
+
+      font-size:12px;
+
+      font-weight:700;
+
+      background:rgba(255,233,139,.14);
+
+      color:var(--yellow);
+
+      border:1px solid rgba(255,233,139,.2);
+
+      margin-bottom:10px;
+
+    }
+
+    .quest-step{
+
+      margin-top:10px;
+
+      padding:14px 15px;
+
+      border-radius:14px;
+
+      background:rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:var(--text);
+
+      line-height:1.8;
+
+    }
+
+    .bottom-log{
+
+      margin-top:18px;
+
+      padding:15px 16px;
+
+      border-radius:16px;
+
+      background:rgba(124,236,255,.06);
+
+      border:1px solid rgba(124,236,255,.14);
+
+      color:var(--sub);
+
+      font-size:13px;
+
+      line-height:1.8;
+
+    }
+
+    .footer{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      flex-wrap:wrap;
+
+      gap:14px;
+
+      padding:18px 22px;
+
+      border-top:1px solid rgba(124,236,255,.12);
+
+      background:rgba(255,255,255,.02);
+
+    }
+
+    .footer-tag{
+
+      font-family:'Orbitron', sans-serif;
+
+      font-size:11px;
+
+      letter-spacing:2px;
+
+      color:var(--sub);
+
+    }
+
+    .like-btn{
+
+      border:none;
+
+      background:linear-gradient(135deg, var(--pink), var(--purple));
+
+      color:white;
+
+      padding:13px 18px;
+
+      border-radius:999px;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      box-shadow:var(--shadow);
+
+      transition:.22s;
+
+    }
+
+    .like-btn:hover{
+
+      transform:translateY(-3px);
+
+    }
+
+    .toast{
+
+      position:fixed;
+
+      top:24px;
+
+      left:50%;
+
+      transform:translateX(-50%);
+
+      z-index:110;
+
+      background:linear-gradient(135deg, rgba(124,236,255,.98), rgba(169,149,255,.95));
+
+      color:#08101e;
+
+      font-weight:800;
+
+      padding:14px 18px;
+
+      border-radius:999px;
+
+      box-shadow:var(--shadow);
+
+      font-size:14px;
+
+      max-width:92%;
+
+      text-align:center;
+
+      animation:fadeIn .25s ease;
+
+    }
+
+    .blink-cursor{
+
+      display:inline-block;
+
+      animation:blink 1s infinite;
+
+    }
+
+    .tiny-note{
+
+      font-size:12px;
+
+      color:var(--sub);
+
+      margin-top:12px;
+
+      line-height:1.7;
+
+    }
+
+    @media (max-width: 900px){
+
+      .layout{
+
+        grid-template-columns:1fr;
+
+      }
+
+      .sidebar{
+
+        border-right:none;
+
+        border-bottom:1px solid rgba(124,236,255,.12);
+
+      }
+
+      .menu-grid{
+
+        grid-template-columns:repeat(2, 1fr);
+
+      }
+
+    }
+
+    @media (max-width: 640px){
+
+      .app{
+
+        margin:16px auto;
+
+        padding:12px;
+
+      }
+
+      .menu-grid,
+
+      .inventory{
+
+        grid-template-columns:1fr;
+
+      }
+
+      .content h2{
+
+        font-size:26px;
+
+      }
+
+      .planet.one{
+
+        width:90px;
+
+        height:90px;
+
+        right:18px;
+
+        top:90px;
+
+      }
+
+      .planet.two{
+
+        width:65px;
+
+        height:65px;
+
+        left:12px;
+
+        bottom:90px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="planet one">
+
+    <div class="ring"></div>
+
+  </div>
+
+  <div class="planet two"></div>
+
+  <div id="startScreen">
+
+    <div class="start-badge">PERSONAL UNIVERSE SYSTEM</div>
+
+    <h1>SEOYEON<br>SPACE LOG</h1>
+
+    <div class="spaceship">🚀</div>
+
+    <div class="subtitle">우주를 탐험하듯, 나를 소개하는 자기소개 페이지</div>
+
+    <button class="start-btn" onclick="startMission()">MISSION START</button>
+
+    <div class="blink">PRESS TO ENTER THE GALAXY</div>
+
+  </div>
+
+  <div class="app">
+
+    <div class="window">
+
+      <div class="topbar">
+
+        <div class="top-left">
+
+          <div class="top-title">SEOYEON_UNIVERSE.EXE</div>
+
+          <div class="signal"><span></span><span></span><span></span></div>
+
+        </div>
+
+        <div class="hud-status">STATUS · ONLINE / GALAXY MODE ACTIVATED</div>
+
+      </div>
+
+      <div class="layout">
+
+        <aside class="sidebar">
+
+          <div class="panel-label">PLAYER INFO</div>
+
+          <div class="avatar-box">
+
+            <div class="orbit">
+
+              <div class="avatar">👩🏻 ⚕️</div>
+
+            </div>
+
+            <div class="online">● CONNECTED</div>
+
+          </div>
+
+          <div class="name">박서연</div>
+
+          <div class="role">
+
+            단국대학교 간호학과 2학년<br>
+
+            Future Nurse / Growth Explorer
+
+          </div>
+
+          <div class="status-card">
+
+            <div class="status-row">
+
+              <span>♥ CARE ENERGY</span>
+
+              <span>100 / 100</span>
+
+            </div>
+
+            <div class="bar"><div class="fill hp" style="width:100%"></div></div>
+
+            <div class="status-row">
+
+              <span>✦ COMMUNICATION</span>
+
+              <span>96 / 100</span>
+
+            </div>
+
+            <div class="bar"><div class="fill mp" style="width:96%"></div></div>
+
+            <div class="status-row">
+
+              <span id="levelText">LV. 02 · EXP</span>
+
+              <span id="expText">0 / 100</span>
+
+            </div>
+
+            <div class="bar"><div class="fill exp" id="expBar"></div></div>
+
+          </div>
+
+          <div class="mini-info">
+
+            <b style="color:var(--text)">✦ GALAXY DATA</b><br>
+
+            🎓 Major : Nursing<br>
+
+            🌷 Personality : 따뜻하고 성장 지향적<br>
+
+            💗 Key Value : 공감과 책임감<br>
+
+            🩺 Final Goal : 신뢰받는 간호사
+
+          </div>
+
+        </aside>
+
+        <main class="main">
+
+          <div class="menu-grid">
+
+            <button class="menu-btn active" onclick="showPage('profile', this)">🪐 PROFILE</button>
+
+            <button class="menu-btn" onclick="showPage('about', this)">🌙 ABOUT ME</button>
+
+            <button class="menu-btn" onclick="showPage('interests', this)">✨ INTERESTS</button>
+
+            <button class="menu-btn" onclick="showPage('strengths', this)">📡 STATS</button>
+
+            <button class="menu-btn" onclick="showPage('hobbies', this)">🛰 HOBBIES</button>
+
+            <button class="menu-btn" onclick="showPage('goal', this)">🚀 MY GOAL</button>
+
+          </div>
+
+          <section class="content" id="content">
+
+            <div class="section-tag">SECTOR 01 / PROFILE</div>
+
+            <h2>안녕하세요, 우주 기록에 오신 걸 환영해요 ✨</h2>
+
+            <div class="dialogue">
+
+              저는 단국대학교 간호학과 2학년에 재학 중인 박서연입니다.
+
+              새로운 것을 배우는 것을 좋아하고, 사람들과 소통하는 것을 즐깁니다.
+
+              이 페이지는 저를 하나의 우주처럼 표현한 자기소개 공간입니다.
+
+            </div>
+
+            <div class="chips">
+
+              <span class="chip">#Nursing</span>
+
+              <span class="chip">#Growth</span>
+
+              <span class="chip">#Communication</span>
+
+              <span class="chip">#WarmHeart</span>
+
+            </div>
+
+            <p class="tiny-note">
+
+              메뉴를 하나씩 탐험하면서 저의 관심사와 강점, 그리고 목표를 확인해 보세요.
+
+            </p>
+
+          </section>
+
+          <div class="bottom-log" id="gameLog">
+
+            📍 SYSTEM LOG : 우주 탐험 준비 완료. 메뉴를 클릭해 항목을 탐색해 보세요.
+
+          </div>
+
+        </main>
+
+      </div>
+
+      <div class="footer">
+
+        <div class="footer-tag">PERSONAL SPACE LOG · SAVE COMPLETED</div>
+
+        <button class="like-btn" onclick="sendSupport()">💗 응원하기 <span id="likeCount">0</span></button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const visited = new Set();
+
+    let exp = 0;
+
+    let likes = 0;
+
+    let typingTimer;
+
+    let unlocked = false;
+
+    const pages = {
+
+      profile: `
+
+        <div class="section-tag">SECTOR 01 / PROFILE</div>
+
+        <h2>나의 기본 프로필 🪐</h2>
+
+        <div class="dialogue">
+
+          <b>이름</b> : 박서연<br>
+
+          <b>학교</b> : 단국대학교<br>
+
+          <b>전공</b> : 간호학과<br>
+
+          <b>학년</b> : 2학년<br>
+
+          <b>코드명</b> : Future Nurse
+
+        </div>
+
+        <div class="chips">
+
+          <span class="chip">#단국대학교</span>
+
+          <span class="chip">#간호학과</span>
+
+          <span class="chip">#2학년</span>
+
+          <span class="chip">#미래간호사</span>
+
+        </div>
+
+        <p class="tiny-note">
+
+          우주선의 첫 기록처럼, 저를 가장 기본적인 정보로 소개하는 공간입니다.
+
+        </p>
+
+      `,
+
+      about: `
+
+        <div class="section-tag">SECTOR 02 / ABOUT ME</div>
+
+        <h2>나에 대한 이야기 🌙</h2>
+
+        <div class="dialogue">
+
+          <span id="typingText"></span><span class="blink-cursor">▌</span>
+
+        </div>
+
+        <div class="chips">
+
+          <span class="chip">#새로운것을배우는즐거움</span>
+
+          <span class="chip">#사람들과의소통</span>
+
+          <span class="chip">#꾸준한성장</span>
+
+        </div>
+
+      `,
+
+      interests: `
+
+        <div class="section-tag">SECTOR 03 / INTERESTS</div>
+
+        <h2>관심사 별자리 ✨</h2>
+
+        <div class="inventory">
+
+          <button class="item" onclick="describeInterest('🎵 좋아하는 노래를 들을 때 가장 편안함을 느끼고, 일상에 활력을 얻습니다.')">
+
+            <span class="item-icon">🎵</span>
+
+            <span class="item-name">MUSIC STAR</span>
+
+          </button>
+
+          <button class="item" onclick="describeInterest('🌳 산책은 생각을 정리하고 마음을 편하게 만드는 저만의 힐링 시간입니다.')">
+
+            <span class="item-icon">🌳</span>
+
+            <span class="item-name">WALK PLANET</span>
+
+          </button>
+
+          <button class="item" onclick="describeInterest('🍰 케이크를 먹는 작은 순간도 하루를 기분 좋게 만드는 행복 포인트입니다.')">
+
+            <span class="item-icon">🍰</span>
+
+            <span class="item-name">CAKE MOON</span>
+
+          </button>
+
+        </div>
+
+        <div class="desc-box" id="interestDesc">별을 클릭하면 관심사 설명이 나타납니다.</div>
+
+      `,
+
+      strengths: `
+
+        <div class="section-tag">SECTOR 04 / STATS</div>
+
+        <h2>나의 강점 스탯 📡</h2>
+
+        <div class="skill">
+
+          <div class="status-row">
+
+            <span>⭐ 책임감</span>
+
+            <span>95 / 100</span>
+
+          </div>
+
+          <div class="bar"><div class="fill hp" style="width:95%"></div></div>
+
+        </div>
+
+        <div class="skill">
+
+          <div class="status-row">
+
+            <span>💗 공감 능력</span>
+
+            <span>98 / 100</span>
+
+          </div>
+
+          <div class="bar"><div class="fill mp" style="width:98%"></div></div>
+
+        </div>
+
+        <div class="skill">
+
+          <div class="status-row">
+
+            <span>🤝 협업 능력</span>
+
+            <span>93 / 100</span>
+
+          </div>
+
+          <div class="bar"><div class="fill exp" style="width:93%"></div></div>
+
+        </div>
+
+        <div class="dialogue">
+
+          저의 가장 큰 강점은 맡은 일에 책임감을 가지고 임하는 태도,
+
+          상대방의 마음을 이해하는 공감 능력,
+
+          그리고 함께 협력하며 문제를 해결하는 협업 능력입니다.
+
+        </div>
+
+        <p class="tiny-note">
+
+          * 스탯 수치는 게임 화면처럼 보이도록 연출한 값입니다.
+
+        </p>
+
+      `,
+
+      hobbies: `
+
+        <div class="section-tag">SECTOR 05 / HOBBIES</div>
+
+        <h2>취미 탐사 기록 🛰</h2>
+
+        <div class="inventory">
+
+          <button class="item" onclick="describeInterest('🎧 음악 감상은 일상 속에서 감정을 정리하고 에너지를 얻는 취미입니다.')">
+
+            <span class="item-icon">🎧</span>
+
+            <span class="item-name">MUSIC</span>
+
+          </button>
+
+          <button class="item" onclick="describeInterest('✈️ 여행은 새로운 풍경과 경험을 통해 시야를 넓혀 주는 취미입니다.')">
+
+            <span class="item-icon">✈️</span>
+
+            <span class="item-name">TRAVEL</span>
+
+          </button>
+
+          <button class="item" onclick="describeInterest('🏃 운동은 건강을 유지하고 활기찬 에너지를 채워 주는 중요한 취미입니다.')">
+
+            <span class="item-icon">🏃 ♀️</span>
+
+            <span class="item-name">EXERCISE</span>
+
+          </button>
+
+        </div>
+
+        <div class="desc-box" id="interestDesc">취미 아이템을 클릭해 설명을 확인하세요.</div>
+
+      `,
+
+      goal: `
+
+        <div class="section-tag">FINAL SECTOR / MY GOAL</div>
+
+        <h2>최종 목표 미션 🚀</h2>
+
+        <div class="quest">
+
+          <div class="quest-badge">MAIN QUEST IN PROGRESS</div>
+
+          <h3 style="margin:8px 0 14px;">신뢰받는 간호사가 되기</h3>
+
+          <div class="dialogue" style="margin-bottom:14px;">
+
+            앞으로 디지털 기술을 잘 활용하면서도,
+
+            환자의 마음을 이해하고 따뜻한 신뢰를 줄 수 있는
+
+            간호사가 되고 싶습니다.
+
+          </div>
+
+          <div class="quest-step">📚 Mission 01. 간호 전문 지식을 꾸준히 쌓기</div>
+
+          <div class="quest-step">💻 Mission 02. 디지털 기술을 능숙하게 활용하기</div>
+
+          <div class="quest-step">💗 Mission 03. 환자의 마음을 이해하는 태도 갖기</div>
+
+          <div class="quest-step">🏆 Final Reward. 신뢰받는 간호사로 성장하기</div>
+
+        </div>
+
+      `
+
+    };
+
+    function startMission(){
+
+      document.getElementById('startScreen').style.display = 'none';
+
+      toast('🚀 MISSION START! 우주 탐험이 시작되었습니다.');
+
+      showPage('profile', document.querySelector('.menu-btn'));
+
+    }
+
+    function showPage(page, button){
+
+      clearInterval(typingTimer);
+
+      const content = document.getElementById('content');
+
+      content.innerHTML = pages[page];
+
+      document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
+
+      if(button) button.classList.add('active');
+
+      if(!visited.has(page)){
+
+        visited.add(page);
+
+        exp = Math.round((visited.size / 6) * 100);
+
+        document.getElementById('expBar').style.width = exp + '%';
+
+        document.getElementById('expText').textContent = exp + ' / 100';
+
+        document.getElementById('gameLog').textContent =
+
+          '📍 SYSTEM LOG : 새로운 구역 탐색 완료 · 진행률 ' + visited.size + ' / 6';
+
+        if(visited.size === 6 && !unlocked){
+
+          unlocked = true;
+
+          document.getElementById('levelText').textContent = 'LV. 03 · CLEAR';
+
+          document.getElementById('gameLog').textContent =
+
+            '🏆 SYSTEM LOG : 모든 구역 탐험 완료! 우주 기록이 완성되었습니다.';
+
+          toast('🌌 ACHIEVEMENT UNLOCKED! 전체 탐험 완료');
+
+        }
+
+      }
+
+      if(page === 'about'){
+
+        const text = '안녕하세요. 저는 새로운 것을 배우는 것을 좋아하고 사람들과 소통하는 것을 즐기는 박서연입니다. 관심 분야는 좋아하는 노래를 듣고 산책하고 케이크를 먹는 소소한 행복이며, 저의 강점은 책임감과 공감 능력, 협업 능력입니다. 앞으로 디지털 기술을 잘 활용하면서도 환자의 마음을 이해하는 간호사가 되고 싶습니다.';
+
+        const target = document.getElementById('typingText');
+
+        let i = 0;
+
+        typingTimer = setInterval(() => {
+
+          if(!target || i >= text.length){
+
+            clearInterval(typingTimer);
+
+            return;
+
+          }
+
+          target.textContent += text.charAt(i);
+
+          i++;
+
+        }, 26);
+
+      }
+
+    }
+
+    function describeInterest(text){
+
+      const box = document.getElementById('interestDesc');
+
+      if(box){
+
+        box.textContent = text;
+
+      }
+
+      document.getElementById('gameLog').textContent =
+
+        '📍 SYSTEM LOG : 상세 데이터 확인 완료';
+
+    }
+
+    function toast(message){
+
+      const old = document.querySelector('.toast');
+
+      if(old) old.remove();
+
+      const t = document.createElement('div');
+
+      t.className = 'toast';
+
+      t.textContent = message;
+
+      document.body.appendChild(t);
+
+      setTimeout(() => {
+
+        t.remove();
+
+      }, 2600);
+
+    }
+
+    function sendSupport(){
+
+      likes++;
+
+      document.getElementById('likeCount').textContent = likes;
+
+      toast('💗 SUPPORT RECEIVED! 응원 에너지가 충전되었습니다.');
+
+    }
+
+  </script>
+
+</body>
+
+</html>
+
